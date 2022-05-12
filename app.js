@@ -4,12 +4,18 @@ const express = require('express')
 const app = express()
 // connectDB
 const connectDB = require('./db/connect')
+// middleware
+const notFoundMiddleware = require('./middleware/notFound')
+const errorHandler = require('./middleware/errorHandler')
 
 app.use(express.json())
 // routes
 app.get('/', (req, res) => {
   res.send('Jobs API')
 })
+
+app.use(notFoundMiddleware)
+app.use(errorHandler)
 
 const port = process.env.PORT || 5000
 const start = async () => {
